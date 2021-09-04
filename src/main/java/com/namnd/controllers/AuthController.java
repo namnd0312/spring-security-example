@@ -1,12 +1,14 @@
 package com.namnd.controllers;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.validation.Valid;
-
 import com.namnd.dtos.request.LoginFormDto;
+import com.namnd.dtos.request.SignUpFormDto;
 import com.namnd.dtos.response.JwtResponseDto;
+import com.namnd.models.Role;
+import com.namnd.models.RoleName;
+import com.namnd.models.User;
+import com.namnd.repositories.RoleRepository;
+import com.namnd.repositories.UserRepository;
+import com.namnd.securities.jwt.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +17,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.namnd.dtos.request.SignUpFormDto;
-import com.namnd.models.Role;
-import com.namnd.models.RoleName;
-import com.namnd.models.User;
-import com.namnd.repositories.RoleRepository;
-import com.namnd.repositories.UserRepository;
-import com.namnd.securities.jwt.JwtProvider;
+import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
+@RequestMapping("api/auth")
 public class AuthController {
 
 	@Autowired
@@ -46,23 +45,9 @@ public class AuthController {
 	@Autowired
 	JwtProvider jwtProvider;
 
-	@GetMapping("/api/namnd/user")
-	public String userAccess() {
-		return ">>> User Contents!";
-	}
 
-	@GetMapping("/api/namnd/pm")
 
-	public String projectManagementAccess() {
-		return ">>> Board Management Project";
-	}
-
-	@GetMapping("/api/namnd/admin")
-	public String adminAccess() {
-		return ">>> Admin Contents";
-	}
-
-	@PostMapping("api/auth/signin")
+	@PostMapping("signin")
 	public ResponseEntity authenticateUser(@Valid @RequestBody LoginFormDto loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
@@ -79,7 +64,7 @@ public class AuthController {
 	}
 
 
-	@PostMapping("api/auth/signup")
+	@PostMapping("signup")
 	public ResponseEntity registerUser(@Valid @RequestBody SignUpFormDto signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity("Fail -> Username is already taken!", HttpStatus.BAD_REQUEST);
