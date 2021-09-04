@@ -28,6 +28,10 @@ public class ExceptionHandler extends RequestBodyAdviceAdapter {
     private final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
     private HttpServletRequest request;
 
+    public ExceptionHandler(HttpServletRequest request) {
+        this.request = request;
+    }
+
     /**
      * Handle exception for validate input data field and custom validation;
      */
@@ -70,8 +74,7 @@ public class ExceptionHandler extends RequestBodyAdviceAdapter {
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType,
                             Class<? extends HttpMessageConverter<?>> converterType) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

@@ -20,89 +20,88 @@ import javax.validation.constraints.Size;
 @Table(name = "users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank
-	@Size(min = 3, max = 50)
-	@Column(unique = true)
-	private String username;
-	
-	@NotBlank
-	@Size(max = 100)
-	@Column(unique = true)
-	private String email;
-	
-	@NotBlank
-	private String password;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	 @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), 
- 	inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @NotBlank
+    @Size(min = 3, max = 50)
+    @Column(unique = true)
+    private String username;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank
+    @Size(max = 100)
+    @Column(unique = true)
+    private String email;
 
-	public String getUsername() {
-		return username;
-	}
+    @NotBlank
+    private String password;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-	public String getEmail() {
-		return email;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setRoles(Set roles) {
-		this.roles = roles;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public User(Long id, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 100) String email,
-			@NotBlank String password, Set roles) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.roles = roles;
-	}
-	
-	
+    public String getPassword() {
+        return password;
+    }
 
-	public User(@NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 100) String email,
-			@NotBlank String password) {
-		super();
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public User() {
-		super();
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set roles) {
+        this.roles = roles;
+    }
+
+    public User(Long id, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 100) String email,
+                @NotBlank String password, Set roles) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+
+    public User(@NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 100) String email,
+                @NotBlank String password) {
+        super();
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+        super();
+    }
 }
